@@ -3,7 +3,7 @@ package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 
 import javax.persistence.Column;
@@ -49,6 +49,9 @@ public class User implements UserDetails {
     @NotEmpty
     @Column(name = "password")
     private String password;
+
+
+
     @ManyToMany
     @JoinTable(
             name = "users_roles"
@@ -117,6 +120,13 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 
     @Override
