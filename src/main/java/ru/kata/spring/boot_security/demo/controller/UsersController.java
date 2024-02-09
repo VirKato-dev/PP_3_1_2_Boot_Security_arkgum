@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.util.Util;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.Collection;
+
 
 
 @Controller
@@ -31,7 +31,7 @@ public class UsersController {
 
     @GetMapping("/all")
     public String getAll(Model model){
-        List<User> userList = userService.getAll();
+        Collection<User> userList = userService.getAll();
         model.addAttribute("userList", userList);
         return "users/userlist";
     }

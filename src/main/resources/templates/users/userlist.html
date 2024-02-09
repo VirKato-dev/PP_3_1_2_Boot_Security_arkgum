@@ -7,7 +7,7 @@
 <body>
 <table border="5">
     <tr>
-        <td colspan="5" align="center">
+        <td colspan="10" align="center">
             <font size="20" style="color: gray" face="Consolas" >User List</font>
         </td>
     </tr>
@@ -15,13 +15,17 @@
         <th>Name</th>
         <th>Surname</th>
         <th>Email</th>
+        <th>Username</th>
+        <th>Password</th>
         <th>Delete</th>
         <th>Edit</th>
     </tr>
     <tr th:each="user : ${userList}">
-        <td th:utext="${user.name}">Model</td>
-        <td th:utext="${user.surname}">Color</td>
-        <td th:utext="${user.email}">Year</td>
+        <td th:utext="${user.name}">Name</td>
+        <td th:utext="${user.surname}">Surname</td>
+        <td th:utext="${user.email}">Email</td>
+        <td th:utext="${user.username}">Username</td>
+        <td th:utext="${user.password}">Password</td>
         <td>
             <form th:method="post" th:action="@{/user/{i}/del(i=${user.getId()})}">
                 <input type="submit" value="delete"/>
@@ -34,7 +38,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan="5">
+        <td colspan="10" align="center">
             <form th:method="get" th:action="@{/user/new}">
                 <input style="width: 100%" type="submit" value="add new user"/>
             </form>

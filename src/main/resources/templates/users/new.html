@@ -21,6 +21,14 @@
         <input type="text" th:field="*{email}" id="Email" placeholder="Email">
         <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">name error</div>
         <br>
+        <label for="Username">Username</label>
+        <input type="text" th:field="*{email}" id="Username" placeholder="Username">
+        <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">name error</div>
+        <br>
+        <label for="Password">Password</label>
+        <input type="text" th:field="*{email}" id="Password" placeholder="Password">
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">name error</div>
+        <br>
         <input type="submit" value="Create User">
     </form>
 </div>
