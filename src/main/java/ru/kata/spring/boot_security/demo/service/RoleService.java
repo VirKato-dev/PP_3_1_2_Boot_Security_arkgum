@@ -7,14 +7,16 @@ import ru.kata.spring.boot_security.demo.model.Role;
 @Service
 public class RoleService {
     private final RoleDao roleDao;
+
     public RoleService(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
-    public Role createRole(String role){
+
+    public Role createRole(String role) {
         role = "ROLE_" + role;
         Role r = roleDao.findRoleByAuthority(role);
-        if(r == null){
-           return roleDao.save(new Role(role));
+        if (r == null) {
+            return roleDao.save(new Role(role));
         }
         return r;
     }

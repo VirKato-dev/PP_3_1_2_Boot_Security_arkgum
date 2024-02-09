@@ -4,17 +4,7 @@ package ru.kata.spring.boot_security.demo.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -23,40 +13,39 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
     @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2,max = 30, message = "Name should be between 2 and 30 characters")
-    @Column(name="name")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я]*$",message = "Name should be contains only from letters ")
+    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @Column(name = "name")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]*$", message = "Name should be contains only from letters ")
     private String name;
     @NotEmpty(message = "Surname should not be empty")
-    @Size(min = 2,max = 30, message = "Surname should be between 2 and 30 characters")
-    @Column(name="surname")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я]*$",message = "Name should be contains only from letters ")
+    @Size(min = 2, max = 30, message = "Surname should be between 2 and 30 characters")
+    @Column(name = "surname")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я]*$", message = "Name should be contains only from letters ")
     private String surname;
     @NotEmpty(message = "Email should not be empty")
     @Email(message = "Email should be valid")
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
     @NotEmpty
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String username;
     @NotEmpty
     @Column(name = "password")
     private String password;
 
 
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles"
             , joinColumns = @JoinColumn(name = "user_id")
-            ,inverseJoinColumns = @JoinColumn(name = "role_id")
+            , inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roleList;
 
@@ -64,7 +53,7 @@ public class User implements UserDetails {
     }
 
 
-    public User(String name, String surname, String email,String username,String password,List<Role> roles) {
+    public User(String name, String surname, String email, String username, String password, List<Role> roles) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -121,17 +110,13 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-    public List<Role> getRoleList() {
-        return roleList;
-    }
 
-    public void setRoleList(List<Role> roleList) {
+    public void setAuthorities(List<Role> roleList) {
         this.roleList = roleList;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return roleList;
     }
 
@@ -150,6 +135,7 @@ public class User implements UserDetails {
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return true;

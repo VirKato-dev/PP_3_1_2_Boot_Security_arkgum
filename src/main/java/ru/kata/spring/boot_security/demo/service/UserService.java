@@ -42,10 +42,10 @@ public class UserService implements UserDetailsService {
 
     public void update(long id, User user) {
         User u = get(id);
-        if(u!=null){
+        if (u != null) {
             user.setId(id);
         }
-        userDao.save( user);
+        userDao.save(user);
     }
 
 
@@ -66,12 +66,14 @@ public class UserService implements UserDetailsService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findUserByUsername(username);
-        if(user==null){
+        if (user == null) {
             throw new UsernameNotFoundException("No Username");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                user.getRoleList());
+        return user;
+//        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+//                user.getAuthorities());
     }
 }
